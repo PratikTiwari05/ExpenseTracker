@@ -36,6 +36,7 @@ Simple HTML/CSS UI for testing APIs
 Fully testable via Postman
 
 Project Structure
+```
 ExpenseTracker/
 │
 ├── controllers/
@@ -64,7 +65,7 @@ ExpenseTracker/
 ├── .env
 ├── .gitignore
 └── README.md
-
+```
 Database Schema (Core Tables)
 
 users
