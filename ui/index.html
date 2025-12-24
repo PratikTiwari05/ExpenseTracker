@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expense Manager</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #1f3a8a;
+      color: #fff;
+      padding: 18px 32px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      margin-bottom: 45px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin: 10px 0 4px;
+      color: #374151;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    pre {
+      margin-top: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      font-size: 13px;
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+
+    .msg-box {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .msg-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .msg-error {
+      background: #fef2f2;
+      color: #7f1d1d;
+      border: 1px solid #fecaca;
+    }
+
+    .balance-box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    footer h4 {
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    footer a {
+      color: #2563eb;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Expense Manager</h1>
+</header>
+
+<div class="container">
+
+  <!-- USERS & GROUPS -->
+  <div class="section">
+    <h2>User & Groups</h2>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Create User</h3>
+        <label>Name</label>
+        <input id="userName" />
+        <label>Email</label>
+        <input id="userEmail" />
+        <button onclick="createUser()">Create User</button>
+        <pre id="userResult"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Create Group</h3>
+        <label>Group Name</label>
+        <input id="groupName" />
+        <button onclick="createGroup()">Create Group</button>
+        <pre id="groupResult"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Add User to Group</h3>
+        <label>Group ID</label>
+        <input id="groupId" />
+        <label>User ID</label>
+        <input id="groupUserId" />
+        <button onclick="addUserToGroup()">Add User</button>
+        <pre id="addUserResult"></pre>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXPENSE -->
+  <div class="section">
+    <h2>Add Expense</h2>
+    <div class="cards">
+      <div class="card">
+        <label>Group ID</label>
+        <input id="expGroupId" />
+
+        <label>Paid By (User ID)</label>
+        <input id="paidBy" />
+
+        <label>Amount</label>
+        <input id="amount" />
+
+        <label>Split Type</label>
+        <select id="splitType">
+          <option value="EQUAL">EQUAL</option>
+          <option value="EXACT">EXACT</option>
+          <option value="PERCENT">PERCENT</option>
+        </select>
+
+        <label>Splits JSON</label>
+        <textarea id="splits"></textarea>
+
+        <button onclick="addExpense()">Add Expense</button>
+        <pre id="expenseResult"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- BALANCE -->
+  <div class="section">
+    <h2>Balances</h2>
+    <div class="cards">
+      <div class="card">
+        <label>User ID</label>
+        <input id="balanceUserId" />
+        <button onclick="getBalances()">Fetch Balances</button>
+        <pre id="balanceResult"></pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <h4>Created by Pratik Tiwari</h4>
+  <a href="https://www.linkedin.com/in/pratik-tiwari05/" target="_blank">LinkedIn</a> |
+  <a href="https://github.com/PratikTiwari05" target="_blank">GitHub</a> |
+  <a href="mailto:pratik12122005@gmail.com">Email</a>
+</footer>
+
+<script>
+  const API = "http://localhost:3000/api";
+
+  function showMessage(id, message, success = true) {
+    document.getElementById(id).innerHTML = `
+      <div class="msg-box ${success ? "msg-success" : "msg-error"}">
+        ${message}
+      </div>
+    `;
+  }
+
+  async function createUser() {
+    try {
+      const res = await fetch(`${API}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: userName.value, email: userEmail.value })
+      });
+      const data = await res.json();
+      showMessage("userResult", data.message, res.ok);
+    } catch {
+      showMessage("userResult", "Failed to create user", false);
+    }
+  }
+
+  async function createGroup() {
+    try {
+      const res = await fetch(`${API}/groups`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: groupName.value })
+      });
+      const data = await res.json();
+      showMessage("groupResult", data.message, res.ok);
+    } catch {
+      showMessage("groupResult", "Failed to create group", false);
+    }
+  }
+
+  async function addUserToGroup() {
+    try {
+      const res = await fetch(`${API}/groups/add-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ groupId: groupId.value, userId: groupUserId.value })
+      });
+      const data = await res.json();
+      showMessage("addUserResult", data.message, res.ok);
+    } catch {
+      showMessage("addUserResult", "Failed to add user", false);
+    }
+  }
+
+  async function addExpense() {
+    try {
+      const splitsData = splits.value ? JSON.parse(splits.value) : [];
+
+      const res = await fetch(`${API}/expenses`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          groupId: expGroupId.value,
+          paidBy: paidBy.value,
+          amount: amount.value,
+          splitType: splitType.value,
+          splits: splitsData
+        })
+      });
+
+      const data = await res.json();
+      showMessage("expenseResult", data.message, res.ok);
+    } catch {
+      showMessage("expenseResult", "Error adding expense", false);
+    }
+  }
+
+  async function getBalances() {
+    const res = await fetch(`${API}/balances/${balanceUserId.value}`);
+    const data = await res.json();
+
+    if (!data.simplifiedBalances || data.simplifiedBalances.length === 0) {
+      balanceResult.innerHTML = `<div class="balance-box">No pending balances.</div>`;
+      return;
+    }
+
+    let html = `<div class="balance-box">`;
+    data.simplifiedBalances.forEach(b => {
+      html += `${b.from} owes ${b.to} ₹${b.amount}<br>`;
+    });
+    html += `</div>`;
+    balanceResult.innerHTML = html;
+  }
+</script>
+
+</body>
+</html>
