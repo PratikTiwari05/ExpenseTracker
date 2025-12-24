@@ -1,16 +1,3 @@
-Got it 👍
-Main **same content** ko **clean, professional README format** me rewrite kar raha hoon:
-
-* ✅ Proper **headings**
-* ✅ Clean **bullet points**
-* ✅ **Links added**
-* ❌ No emojis
-* ❌ No extra fluff
-
-You can **directly replace** your README with this.
-
----
-
 # Expense Sharing Application (Splitwise-like Backend)
 
 A simplified expense sharing backend system inspired by Splitwise, built using **Node.js, Express, and MySQL**.
@@ -174,11 +161,3 @@ Server running on http://localhost:3000
 **Pratik Tiwari**
 
 ---
-
-If you want next:
-
-* Shorter README (assignment-specific)
-* README with API examples
-* Interview walkthrough using README
-
-Just say the word.
